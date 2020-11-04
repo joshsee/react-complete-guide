@@ -5,9 +5,9 @@ import './App.css';
 class App extends Component {
   state = {
     persons: [
-      {id: '', name: 'Max', age: 28 },
-      {id: '', name: 'Manu', age: 29 },
-      {id: '', name: 'Stephanie', age: 26 }
+      {id: 'asda536', name: 'Max', age: 28 },
+      {id: 'gsdfs45', name: 'Manu', age: 29 },
+      {id: 'dswe123', name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
     showPersons: false
@@ -30,12 +30,25 @@ class App extends Component {
     this.setState({persons: persons});
   }
 
-  nameChangeHandler = (event) => {
-    this.setState({persons: [
-      {name: 'Josh', age: 33 },
-      {name: event.target.value, age: 45 },
-      {name: 'Stephanie', age: 26 }
-    ]})
+  nameChangeHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    // Not mutate state, but use spread operator to distribute to this new person object
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    // Alternativ method to assign it to an empty object
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({persons: persons});
   }
 
   togglePersonsHandler = () => {
@@ -63,7 +76,7 @@ class App extends Component {
               name={person.name}
               age={person.age}
               key={person.id}
-              />
+              changed={(event) => this.nameChangeHandler(event, person.id)}/>
           })}
         </div>
       )
