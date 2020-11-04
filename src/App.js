@@ -45,17 +45,25 @@ class App extends Component {
       cursor: 'pointer'
     };
 
+    let person = null;
+
+    if (this.state.showPersons) {
+      person = (
+        <div>
+          <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+          <Person name={this.state.persons[1].name} age={this.state.persons[1].age}
+          click={this.switchNameHandler.bind(this, 'James')} 
+          changed={this.nameChangeHandler}>My Hobbies
+          </Person>
+        </div>
+      )
+    }
+
     return (
       <div className="App">
         <h1>Hi my react app</h1>
         <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
-        { this.state.showPersons?
-        <div>
-          <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}
-        
-        click={this.switchNameHandler.bind(this, 'James')} 
-        changed={this.nameChangeHandler}>My Hobbies</Person></div>: null } 
+        {person} 
         {/* {this.state.otherState} */}
       </div>
     );
